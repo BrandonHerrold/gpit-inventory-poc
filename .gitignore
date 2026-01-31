@@ -1,0 +1,22 @@
+# === Python ===
+__pycache__/
+*.pyc
+*.pyo
+
+# === Viertual Environment ===
+.venv/
+venv/
+
+# === Django ===
+db.sqlite3
+*.log
+local_setting.py
+
+# === Environment variables ===
+.Environment
+
+# === Os / Editor ===
+.vscode/
+,idea/
+.DS_Store
+Thumbs.db
