@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import secrets
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'inventory',
     'parts',
     'stock',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'core.middleware.ForceLogoutOnServerRestartMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -118,3 +121,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Authentication settings
+LOGIN_URL = "/admin/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/admin/login/"
+
+# ==== Session behavior ===
+# Store sessions in memory so restarting the server logs everyone out.
+SESSIONG_ENGINE = "django.contrib.sessions.backends.cache"
+
+# Use in-memory cache backend (Clears when process restarts)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "kpit-poc-dev-session-cache",
+    }
+}
+
+# Expires the session cookie when the browser closes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Changes every time the Django process starts/reloads
+# Used to invalidate sessions on server restart
+SERVER_RUN_NONCE = secrets.token_urlsafe(16)
+
+# === Session timeout / inactivity policy ===
+SESSION_COOKIE_AGE = 15 * 60                # 15 minutes (in seconds)
+SESSION_SAVE_EVERY_REQUEST = True           # Refresh expiry on each request (sliding window)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True     # Optional; keep cookies persisten, server enforces idle timeout
