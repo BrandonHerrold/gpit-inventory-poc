@@ -165,4 +165,12 @@ This project was built as a **learning-forward, portfolio-quality PoC** focused 
 * maintainability
 * enterprise readiness
 
+## License
+
+This project is proprietary and confidential.
+
+All rights are reserved by the author.  
+No part of this repository may be copied, reproduced, modified,
+or redistributed without explicit written permission.
+
 Feedback and discussion are welcome.
