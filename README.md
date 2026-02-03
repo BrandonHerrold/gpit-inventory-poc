@@ -148,10 +148,6 @@ Planned next steps:
 * REST API layer
 * Dockerized PoC deployment
 
-See the full checklist here:
-
-* [`docs/KPIT-Progress-Checklist.md`](docs/KPIT-Progress-Checklist.md)
-
 ---
 
 ## 📄 License
